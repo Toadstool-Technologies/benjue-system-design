@@ -1,0 +1,11 @@
+\COPY products FROM 'olddata/product.csv' delimiter ',' csv header;
+\copy questions from 'olddata/questions.csv' delimiter ',' csv header;
+\copy answers from 'olddata/answers.csv' delimiter ',' csv header;
+\copy photos from 'olddata/answers_photos.csv' delimiter ',' csv header;
+
+
+//to run the schema file
+psql -d qanda -a -f schema.sql
+
+//convert to timestamp
+select to_timestamp(1596080481467::numeric/1000);
