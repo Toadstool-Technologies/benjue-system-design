@@ -88,7 +88,7 @@ router.put('/:question_id/helpful', (req, res) => {
       console.log('err incrementing question helpful');
       res.sendStatus(501)
     } else (
-      res.sendStatus(201)
+      res.sendStatus(204)
     )
   })
 });
@@ -100,11 +100,9 @@ router.put('/:question_id/report', (req, res) => {
       console.log('err marking question reported');
       res.sendStatus(501)
     } else {
-      res.sendStatus(201)
+      res.sendStatus(204)
     }
   })
 })
-
-
 
 module.exports = router;
