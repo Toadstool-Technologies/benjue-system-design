@@ -1,0 +1,39 @@
+qanda=# explain analyze select * from questions;
+                                                      QUERY PLAN
+----------------------------------------------------------------------------------------------------------------------
+ Seq Scan on questions  (cost=0.00..94236.77 rows=3519077 width=99) (actual time=0.882..517.325 rows=3518964 loops=1)
+ Planning Time: 1.165 ms
+ Execution Time: 701.393 ms
+(3 rows)
+
+qanda=# explain analyze select * from questions where reported = false and product_id = 243434;
+                                                        QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..78375.33 rows=8 width=99) (actual time=181.734..183.320 rows=5 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on questions  (cost=0.00..77374.53 rows=3 width=99) (actual time=131.603..175.890 rows=2 loops=3)
+         Filter: ((NOT reported) AND (product_id = 243434))
+         Rows Removed by Filter: 1172986
+ Planning Time: 0.833 ms
+ Execution Time: 183.358 ms
+(8 rows)
+
+qanda=# select * from answers where question_id = 24 and reported = false limit 2 offset 4;
+ id | question_id | body | date_written | answerer_name | answerer_email | reported | helpful
+----+-------------+------+--------------+---------------+----------------+----------+---------
+(0 rows)
+
+qanda=# explain analyze select * from answers where question_id = 3432  and reported = false limit 2 offset 4;
+                                                           QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=67914.58..101371.87 rows=2 width=100) (actual time=319.153..322.093 rows=0 loops=1)
+   ->  Gather  (cost=1000.00..151557.80 rows=9 width=100) (actual time=319.152..322.091 rows=0 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         ->  Parallel Seq Scan on answers  (cost=0.00..150556.90 rows=4 width=100) (actual time=314.441..314.442 rows=0 loops=3)
+               Filter: ((NOT reported) AND (question_id = 3432))
+               Rows Removed by Filter: 2293102
+ Planning Time: 1.174 ms
+ Execution Time: 322.116 ms
+(9 rows)
