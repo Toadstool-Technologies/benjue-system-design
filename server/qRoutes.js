@@ -78,6 +78,31 @@ router.post('/:question_id/answers', (req, res) => {
       res.sendStatus(201, 'successfuly posted an answer!')
     }
   })
+});
+
+//Updates a question to show it was found helpful.
+router.put('/:question_id/helpful', (req, res) => {
+  const param = req.params.question_id;
+  modelQ.putQH(param, (err, result) => {
+    if (err) {
+      console.log('err incrementing question helpful');
+      res.sendStatus(501)
+    } else (
+      res.sendStatus(201)
+    )
+  })
+});
+
+router.put('/:question_id/report', (req, res) => {
+  const param = req.params.question_id;
+  modelQ.putQR(param, (err, result) => {
+    if (err) {
+      console.log('err marking question reported');
+      res.sendStatus(501)
+    } else {
+      res.sendStatus(201)
+    }
+  })
 })
 
 

@@ -67,5 +67,27 @@ module.exports = {
         }
       })
     })
+  },
+
+  putQH: function(param, callback) {
+    const queryString = 'update questions set helpful = helpful + 1 where id = $1';
+    pool.query(queryString, [param], (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    })
+  },
+
+  putQR: function(param, callback) {
+    const queryString = 'update questions set reported = true where id = $1';
+    pool.query(queryString, [param], (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    })
   }
 }
