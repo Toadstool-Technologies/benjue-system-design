@@ -66,14 +66,14 @@ router.post('/:question_id/answers', (req, res) => {
     body: req.query.body,
     name: req.query.name,
     email: req.query.email,
-    photos: req.query.photos,
+    photos: JSON.parse(req.query.photos),
     date_written: ts
   }
-  console.log(params);
+  // console.log(params);
   modelQ.postA(params, (err, result) => {
     if (err) {
       console.log('err posting an answer');
-      res.send(501)
+      res.sendStatus(501)
     } else {
       res.sendStatus(201, 'successfuly posted an answer!')
     }

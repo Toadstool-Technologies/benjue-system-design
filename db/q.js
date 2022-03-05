@@ -1,5 +1,6 @@
 //requesting the bd connection
 const pool = require('./index.js');
+const format = require('pg-format');
 
 module.exports = {
   getAllQ: function(params, callback) {
@@ -50,7 +51,21 @@ module.exports = {
     const email = params.email;
     const photos = params.photos;
     const date_written = params.date_written;
-
-
+    const queryString = 'insert into answers (question_id, body, date_written, answerer_name, answerer_email, reported, helpful) values ($1, $2, $3, $4, $5, false, 0) returning id';
+    pool.query(queryString, [question_id, body, date_written, name, email])
+    .then((res) => {
+      const answer_id = res.rows[0].id;
+      const newArr = photos.map((photo) => {
+        return newPhoto = [answer_id, photo];
+      })
+      // console.log(answer_id, newArr)
+      pool.query(format('insert into photos (answer_id, url) values %L', newArr), [], (err, result) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, result)
+        }
+      })
+    })
   }
 }
