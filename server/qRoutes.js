@@ -2,6 +2,18 @@ const express = require('express');
 const router = express.Router();
 const modelQ = require('../db/q.js');
 
+
+router.get('/test', (req, res) => {
+  const params = req.query.product_id;
+  modelQ.getTest(params, (err, result) => {
+    if (err) {
+      console.log('err testing')
+      res.sendStatus(501)
+    } else {
+      res.send(result)
+    }
+  })
+})
 //Retrieves a list of questions for a particular product. This list does not include any reported questions.
 router.get('/', (req, res) => {
   const params = req.query.product_id;

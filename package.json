@@ -6,9 +6,15 @@
     "postgres": "^1.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "chai": "^4.3.6",
+    "jest": "^27.5.1",
+    "mocha": "^9.2.1",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   },
   "scripts": {
-    "dev-start": "nodemon server/index.js"
+    "dev-start": "nodemon server/index.js",
+    "test": "mocha --recursive tests/localTest.js",
+    "test:watch": "npm run test -- --watch"
   }
 }
