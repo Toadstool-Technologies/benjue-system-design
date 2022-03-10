@@ -42,3 +42,8 @@ CREATE TABLE photos (
   answer_id int references answers(id),
   url varchar(150)
 )
+
+COPY products FROM 'olddata/product.csv' delimiter ',' csv header;
+copy questions from 'olddata/questions.csv' delimiter ',' csv header;
+copy answers from 'olddata/answers.csv' delimiter ',' csv header;
+copy photos from 'olddata/answers_photos.csv' delimiter ',' csv header;
