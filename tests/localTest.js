@@ -23,13 +23,14 @@ describe('get questions endpoint', () => {
 describe('post a question endpoint', () => {
   it('should return a 201 status code', async () => {
     const response = await request(baseUrl)
-    .post('/qa/questions/')
+    .post('/qa/questions')
     .send({
-      body: 'hi',
-      name: 'vi',
-      email: 'vi@gmail.com',
-      product_id: '20',
-    });
+      'body': 'hi',
+      'name': 'vi',
+      'email': 'vi@gmail.com',
+      'product_id': '20',
+    })
+    .then(response => console.log(response))
     expect(response.statusCode).to.equal(201);
   })
 })

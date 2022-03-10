@@ -3,27 +3,41 @@ const router = express.Router();
 const modelQ = require('../db/q.js');
 
 
-router.get('/test', (req, res) => {
-  const params = req.query.product_id;
-  modelQ.getTest(params, (err, result) => {
-    if (err) {
-      console.log('err testing')
-      res.sendStatus(501)
-    } else {
-      res.send(result)
-    }
-  })
-})
+// router.get('/test', (req, res) => {
+//   const params = req.query.product_id;
+//   modelQ.getTest(params, (err, result) => {
+//     if (err) {
+//       console.log('err testing')
+//       res.sendStatus(501)
+//     } else {
+//       res.send(result)
+//     }
+//   })
+// })
 //Retrieves a list of questions for a particular product. This list does not include any reported questions.
 router.get('/', (req, res) => {
   const params = req.query.product_id;
   console.log('here is the get param', params)
-  modelQ.getAllQ(params, (err, result)=> {
+  modelQ.getAllQ(params, (err, questions)=> {
     if (err) {
       console.log('err getting all questions')
       res.sendStatus(501);
     } else {
-      res.send(result);
+      for (let i = 0; i < questions.results.length; i++) {
+        let timestamp = new Date(parseInt(questions.results[i].question_date));
+        questions.results[i].question_date = timestamp;
+        if (!questions.results[i].answers) {
+          questions.results[i].answers = {};
+        }
+        for (let key in questions.results[i].answers) {
+          let timestamp2 = new Date(parseInt(questions.results[i].answers[key].date));
+          questions.results[i].answers[key].date = timestamp2;
+          if (!questions.results[i].answers[key].photos) {
+            questions.results[i].answers[key].photos = [];
+          }
+        }
+      }
+      res.send(questions);
     }
   })
 });
@@ -34,16 +48,23 @@ router.get('/:question_id/answers', (req, res) => {
   const page = req.query.page;
   const count = req.query.count;
   const params = [questionId, page, count];
-  modelQ.getAllA(params, (err, result) => {
+  modelQ.getAllA(params, (err, answers) => {
     if (err) {
       console.log('err getting all answers');
       res.sendStatus(501);
     } else {
       const data = {
         question: questionId,
-        page: page,
-        count: count,
-        result: result
+        page: page || 0,
+        count: count || 5,
+        results: answers
+      }
+      for (let i = 0; i < data.results.length; i++) {
+        let timestamp = new Date(parseInt(data.results[i].date));
+        data.results[i].date = timestamp;
+        if (data.results[i].photos === null) {
+          data.results[i].photos = [];
+        }
       }
       res.send(data);
     }
