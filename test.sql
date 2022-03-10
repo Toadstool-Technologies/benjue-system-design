@@ -62,7 +62,7 @@ select q.question_id,
       a.id,
       row_to_json(a)
     )
-    from (select id, body, date, answerer_name, helpfulness, (select json_agg(p.url) from photos as p where p.answer_id = answers.id) photos from answers where question_id = 1) a) answers from questions as q where product_id = 1;
+    from (select id, body, date, answerer_name, helpfulness, (select json_agg(p.url) from photos as p where p.answer_id = answers.id) photos from answers where question_id = q.question_id) a) answers from questions as q where product_id = 1;
 
 
 

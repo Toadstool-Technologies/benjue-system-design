@@ -16,25 +16,25 @@ CREATE TABLE products (
 );
 
 CREATE TABLE questions (
-  id serial primary key,
+  question_id serial primary key,
   product_id int references products(id),
-  body varchar(400) not null,
-  date_written bigint,
+  question_body varchar(400) not null,
+  question_date bigint,
   asker_name varchar(100) not null,
   asker_email varchar(100),
   reported boolean,
-  helpful smallint
+  question_helpfulness smallint
 );
 
 CREATE TABLE answers (
   id serial primary key,
   question_id int references questions(id),
   body varchar(1000) not null,
-  date_written bigint,
+  date bigint,
   answerer_name varchar(100) not null,
   answerer_email varchar(100),
   reported boolean,
-  helpful smallint
+  helpfulness smallint
 );
 
 CREATE TABLE photos (

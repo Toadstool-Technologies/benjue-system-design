@@ -5,8 +5,8 @@ import { Counter } from 'k6/metrics';
 // export const requests = new Counter('http_reqs');
 
 // export const options = {
-//   vus: 1000,
-//   duration: '15s',
+//   vus: 100,
+//   duration: '30s',
 // }
 
 // const randomId = Math.floor(Math.random() * 100000);
