@@ -28,7 +28,7 @@ CREATE TABLE questions (
 
 CREATE TABLE answers (
   id serial primary key,
-  question_id int references questions(id),
+  question_id int references questions(question_id),
   body varchar(1000) not null,
   date bigint,
   answerer_name varchar(100) not null,
