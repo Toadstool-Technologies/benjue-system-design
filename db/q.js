@@ -93,6 +93,7 @@ module.exports = {
     const queryString = 'insert into questions (product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) values ($1, $2, $3, $4, $5, false, 0)';
     pool.query(queryString, [product_id, body, date_written, name, email], (err, result) => {
       if (err) {
+        console.log(err);
         callback(err, null);
       } else {
         callback(null, result);
